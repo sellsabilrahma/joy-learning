@@ -3,13 +3,15 @@ import { config } from "dotenv";
 import { securePass } from "./middlewares/authmiddleware";
 import { checkPassword } from "./Config/crypto";
 import User from "./models/user";
-import connectDB from "./Config/connectDB"
+import connectDB from "./Config/connectDB.js"
 import cookieParser from "cookie-parser"
+import jwt from "jsonwebtoken"
 config()
 
 connectDB(process.env.DATABASE_NAME)
 
 const PORT = process.env.PORT
+const SECRET_KEY = "doing_my_homework_!"
 
 const server = express ()
 server.use(express.urlencoded)({extended: true})
@@ -39,8 +41,26 @@ server.post("/login", async (req, res, next) => {
          console.error(error);
        }
 
+       const payload = {
+        username,
+        password
+       };
+       const token = jwt.sign(
+        payload,
+        SECRET_KEY,
+        { expiresIn: "1h"}
+       );
+
+       res.json({ token });
+
+       res.cookie("token", token, {
+        httpOnly: true,
+        
+       });
+
 })
       
 server.listen(PORT, () => {
   console.log(`Runing on http://localhost${PORT}`);
+
 })
