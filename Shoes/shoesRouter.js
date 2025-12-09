@@ -1,8 +1,10 @@
 import { Router } from "express";
 
 // import controller functions
-import {getAll}
+import { getAllShoes } from "./shoesController.js";
 
 const shoesRouter = Router ()
+
+shoesRouter.get("/", getAllShoes)
 
 export default shoesRouter
