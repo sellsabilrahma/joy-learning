@@ -13,6 +13,8 @@ const shoeSchema = new schema ({
 }
 )
 
+// Be careful at naming things
+// Models generally start with a capital letter = Shoe
 const shoe = model("Shoe", shoeSchema)
 
 export default shoe

@@ -6,6 +6,10 @@ import User from "./models/user";
 import connectDB from "./Config/connectDB.js"
 import cookieParser from "cookie-parser"
 import jwt from "jsonwebtoken"
+
+// We should import the router
+import shoesRouter from "./Shoes/shoesRouter.js";
+
 config()
 
 connectDB(process.env.DATABASE_NAME)
@@ -17,6 +21,9 @@ const server = express ()
 server.use(express.urlencoded)({extended: true})
 server.use(express.json())
 server.use(cookieParser ())
+
+// Then use the router with a basic url
+server.use("/api/shoes", shoesRouter)
 
 server.use("/signup", securePass)
 server.post("/signup", async (req, res, next) => {
